@@ -6,7 +6,7 @@ const App = () => {
   return (
     <div>
         <div>
-            <Button>Click Me</Button>
+            <Button primary outline>Click Me</Button>
         </div>
         <div>
             <Button>Buy Now!</Button>
