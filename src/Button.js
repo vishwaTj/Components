@@ -10,25 +10,27 @@ const Button = ({
     danger,
     outline,
     rounded,
-
-
+    ...rest //sending the rest of the event handler props into a rest obj
 }) => {
-  const classes = className('px-3 py-1.5 border',{
-    'border-blue-500 bg-blue-500 text-white':primary,
-    'border-gray-500 bg-gray-900 text-white':secondary,
-    'border-green-500 bg-green-500 text-white':success,
-    'border-yellow-500 bg-yellow-400 text-white':warning,
-    'border-red-500 bg-red-500 text-white':danger,
+  //here rest.clasName sends the entire class names as a single huge string so individually declared classes later on do not get overriden
+  const classes = className(rest.className,'flex items-center px-3 py-1.5 border',{
+    'border-blue-500 bg-blue-500':primary,
+    'border-gray-900 bg-gray-900':secondary,
+    'border-green-500 bg-green-500':success,
+    'border-yellow-400 bg-yellow-400':warning,
+    'border-red-500 bg-red-500':danger,
     'rounded-full': rounded,
+    'text-white':
+      !outline && (primary || secondary || success || warning || danger),  
     'bg-white': outline,
-    'text-blue-500':outline && primary,
-    'text-gray-900':outline && secondary,
-    'text-green-500':outline && success,
-    'text-yellow-400':outline && warning,
-    'text-red-500':outline && danger,
+    'text-blue-500': outline && primary,
+    'text-gray-900': outline && secondary,
+    'text-green-500': outline && success,
+    'text-yellow-400': outline && warning,
+    'text-red-500': outline && danger,
   })
 
-  return <button className={classes}>{children}</button>;
+  return <button {...rest} className={classes}>{children}</button>;
 }
 
 Button.propTypes = {

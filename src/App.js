@@ -1,27 +1,38 @@
-import React from 'react'
-import Button from './Button'
-
+import Button from './Button';
+import {GoBell, GoCloudDownload, GoDatabase} from 'react-icons/go';
 
 const App = () => {
+    const handleClick=()=>{
+        console.log("clicked");
+    }
   return (
     <div>
         <div>
-            <Button success rounded outline>Click Me</Button>
+            <Button className="mb-5" secondary outline rounded onClick={handleClick}>
+                <GoBell />
+                Click Me
+            </Button>
         </div>
         <div>
-            <Button danger outline>Buy Now!</Button>
+            <Button danger outline onMouseEnter={handleClick} >
+                <GoCloudDownload />
+                Buy Now!
+            </Button>
         </div>
         <div>
-            <Button primary runded>See Deal!</Button>
+            <Button warning onMouseLeave={handleClick}>
+                <GoDatabase />
+                See Deal!
+            </Button>
         </div>
         <div>
-            <Button warning outline>Hide Ads!</Button>
+            <Button success outline>Hide Ads!</Button>
         </div>
         <div>
-            <Button danger rounded>Welcome</Button>
+            <Button primary rounded>Welcome</Button>
         </div>
     </div>
   )
 }
 
-export default App
+export default App;
