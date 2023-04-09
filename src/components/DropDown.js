@@ -1,17 +1,27 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { GoChevronDown } from "react-icons/go";
 import Panel from "./Panel";
 
 const DropDown = ({options,onChange,value}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const divEl = useRef();
 
   useEffect(()=>{
     const handler = (event) =>{
-      console.log(event.target);
+      if(!divEl.current) {
+        return;
+      }
+      if(!divEl.current.contains(event.target)){
+        setIsOpen(false);
+      }
     }
 
     document.addEventListener('click', handler, true);
+
+    return () =>{
+      document.removeEventListener('click', handler);
+    }
   }, [])
 
   const handleClick = () => {
@@ -37,7 +47,8 @@ const DropDown = ({options,onChange,value}) => {
   
 
   return (
-    <div className='w-48 relative'>
+    //The ref tag here gives a unique ref value to each html div generated 
+    <div ref={divEl} className='w-48 relative'>
       <Panel className='flex justify-between items-center cursor-pointer'
         onClick={handleClick}>
         {value?.label || "Select..."}
