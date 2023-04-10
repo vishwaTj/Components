@@ -29,15 +29,15 @@ const DropDown = ({options,onChange,value}) => {
   }
 
   const handleOptionClick = (option) => {
-   // CLOSE DROPDOWN 
-    setIsOpen(false);
    // WHAT OPTION DID THE USER CLICK ON ???
     onChange(option);  
+   // CLOSE DROPDOWN 
+    setIsOpen(false); 
   }
   const renderedOptions = options.map((option)=>{
     return <div 
               className='hover:bg-sky-100 rounded cursor-pointer p-1'
-              onClick={handleOptionClick}
+              onClick={()=>handleOptionClick(option)}
               key={option.value}>
                 {option.label}
             </div>
