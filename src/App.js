@@ -1,31 +1,7 @@
-import React, { useState } from 'react';
-import DropDown from './components/DropDown';
+import React from 'react'
 
-const App = () => {
-   const [selection, setSelection] = useState(null);
-
-  const handleSelect = (option) => {
-    setSelection(option);
-  }
-
-  const options = [
-      {label: 'Red', value:'red'},
-      {label: 'Green', value:'green'},
-      {label: 'Blue', value: 'blue'}
-  ];
-
+export default function App() {
   return (
-    <div className='flex'>
-        <DropDown 
-        options={options}
-        onChange={handleSelect}
-        value={selection}/>
-        <DropDown 
-        options={options}
-        onChange={handleSelect}
-        value={selection}/>
-    </div>    
+    <div>App</div>
   )
 }
-
-export default App;
