@@ -1,18 +1,123 @@
-import React from 'react';
+import React, { useReducer} from 'react';
 import Button from "../components/Button";
-import useCounter from '../hooks/use-counter';
+import Panel from '../components/Panel';
+
+const INCREMENT_COUNT = 'increment';
+const SET_VALUE_TO_ADD = 'change_value_to_add';
+const DECREMENT = 'decrement';
+const ADD_VALUE_TO_COUNT = 'add_value_to_count';
+
+const reducer = (state, action) => {
+   switch(action.type) {
+    case INCREMENT_COUNT:
+      return {
+        ...state,
+        count: state.count+1
+      }
+    case SET_VALUE_TO_ADD:
+      return {
+        ...state,
+        valueToAdd: action.payload
+     }
+    case DECREMENT:
+      return {
+        ...state,
+        count:state.count - 1
+      }
+    case ADD_VALUE_TO_COUNT:
+      return {
+        ...state,
+        count:state.count + action.payload,
+        valueToAdd:0
+      }
+    default:
+      return state;   
+   }
+
+  // if(action.type === INCREMENT_COUNT){
+  //   return {
+  //     ...state,
+  //     count: state.count+1
+  //   }
+  // }
+
+  // if(action.type === SET_VALUE_TO_ADD) {
+    // return {
+    //    ...state,
+    //    valueToAdd: action.payload
+    // }
+  // }
+
+  // no matter what we have to return something
+  //  else the reducer will assume it null and make state null
+  // return state;
+}
 
 function CountPage({initialCount}) {
-  const { count, increment} = useCounter(initialCount);
+  //  const [count,setCount] = useState(initialCount);
+  //  const [valueToAdd,setValueToAdd] = useState(0);
+  const [state, dispatch] = useReducer(reducer, {
+    count: initialCount,
+    valueToAdd:0
+  })
    
 
+  const increment = () => {
+    dispatch({
+      type:INCREMENT_COUNT
+    });
+   }
+
+   const decrement = () => {
+    dispatch({
+      type:DECREMENT
+    })
+   }
+
+   const handleChange = (event) => {
+    // to handle NAN because it would change the state variable to string
+     const value = parseInt(event.target.value) || 0;
+     
+     dispatch({
+      type: SET_VALUE_TO_ADD,
+      payload: value
+     })
+   }
+
+   const handleSubmit = (event) => {
+      event.preventDefault();
+      
+      dispatch ({
+        type:ADD_VALUE_TO_COUNT,
+        payload:state.valueToAdd
+      })
+      // setCount(count + valueToAdd);
+      // setValueToAdd(0);
+   }
+
   return (
-    <div>
-        <h1>Count is {count}</h1>
-        <Button onClick={increment}>
-            Increment
-        </Button>
-    </div>
+    <Panel className="m-3">
+        <h1 className='text-lg'>Count is {state.count}</h1>
+        <div className='flex flex-row'> 
+          <Button onClick={increment}>
+              Increment
+          </Button>
+          <Button onClick={decrement}>
+              Decrement
+          </Button>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <label>Add a lot</label>
+          <input 
+               type="number"
+               className='p-1 m-3 bg-gray-50 border border-gray-300'
+               value={state.valueToAdd}
+               onChange={handleChange}
+           />
+          <Button>Add it!</Button>
+        </form>
+    </Panel>
   )
 }
 
